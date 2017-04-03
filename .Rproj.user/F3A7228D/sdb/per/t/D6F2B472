@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"長庚大學 大數據分析方法 作業三\"\noutput: github_document\n---\n\ninstall.packages(\"rvest\")\n## 網站資料爬取\n```{r}\n\nlibrary(rvest) \nPTT <- \"https://www.ptt.cc/bbs/LoL/index.html\"\nPTT02 <- \"https://www.ptt.cc/bbs/LoL/index7122.html\"\nPTT03 <- \"https://www.ptt.cc/bbs/LoL/index7121.html\"\nPTT04 <- \"https://www.ptt.cc/bbs/LoL/index7120.html\"\nPTT05 <- \"https://www.ptt.cc/bbs/LoL/index7119.html\"\nPTT06 <- \"https://www.ptt.cc/bbs/LoL/index7118.html\"\nPTT07 <- \"https://www.ptt.cc/bbs/LoL/index7117.html\"\nPTT08 <- \"https://www.ptt.cc/bbs/LoL/index7116.html\"\nb <- c(PTT,PTT02,PTT03,PTT04,PTT05,PTT06,PTT07,PTT08)\n\nframeAll <- NULL\nfor(n in b){\n    PTTContent <- read_html(n)\n    post_title <- PTTContent %>%\n        html_nodes(\".title\") %>%\n        html_text()\n    post_title\n    \n    post_nrec <- PTTContent %>%\n        html_nodes(\".nrec\") %>%\n        html_text()\n    post_nrec\n    \n    post_author<- PTTContent %>% \n        html_nodes(\".author\") %>% \n        html_text()\n    post_author\n    \n    post_date<- PTTContent %>% \n            html_nodes(\".date\") %>% \n            html_text()\n    post_date\n    \n    pppt <- data.frame( title = c(post_title),\n                        pushNum = c(post_nrec),\n                        author = c(post_author),\n                        date = c(post_date) )\n    pppt\n    \n    frameAll <- rbind( frameAll,pppt )\n    Sys.sleep(sample(3:5, 1))\n}\n\n\n```\n\n## 爬蟲結果呈現\n```{r}\nknitr::kable(\n    frameAll[1:151,c(\"title\",\"pushNum\",\"author\",\"date\")])\n\n```\n\n## 解釋爬蟲結果 \n```{r}\ndim(frameAll)\n```\n\nLOL眾多文章裡[公告] LoL 英雄聯盟板板規告和[電競] 近期賽事的文章，\n就算日期是以前的文章，但仍然排在版面上。\n還有當title欄位是本文已被刪除，那author欄位就會是空白的\nauthor欄位rainnawind作者，每次發文回應人數都很熱門!\n\n\n```{r}\ntable(frameAll$title)\n```\n\n遇到節日，例如：兒童節、清明節，鄉民就會發關於lol廢文\n最近eltar 發關於賽後訪問的文章，也非常熱門!!\n\n",
+    "created" : 1491234170653.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "734207423",
+    "id" : "D6F2B472",
+    "lastKnownWriteTime" : 1491234589,
+    "last_content_update" : 1491234589951,
+    "path" : "C:/Users/X550LD/Desktop/cguim-bigdata-hw3-yunchencheng/README.Rmd",
+    "project_path" : "README.Rmd",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
